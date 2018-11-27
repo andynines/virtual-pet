@@ -6,15 +6,22 @@ Drexel CS164
 
 
 
+// Housekeeping vars
 var stateIndex;
 var totalStates;
 
+// Pet vars
+var happiness;
+var hunger;
+var fatigue;
 
 
+
+// Possible states
 var states = [
     {
         name: "bored",
-        desc: "feeling bored",
+        desc: "Gary is bored",
         img: "gary-idle.png",
         next: {
             "happy": 20,
@@ -25,7 +32,7 @@ var states = [
     },
     {
         name: "happy",
-        desc: "feeling happy",
+        desc: "Gary is feeling happy",
         img: "gary-happy.jpeg",
         next: {
             "bored": 20,
@@ -36,7 +43,7 @@ var states = [
     },
     {
         name: "tired",
-        desc: "feeling tired",
+        desc: "Gary is worn out",
         img: "gary-tired.png",
         next: {
             "happy": 20,
@@ -47,7 +54,7 @@ var states = [
     },
     {
         name: "hungry",
-        desc: "feeling hungry",
+        desc: "Gary's stomach is growling",
         img: "gary-hungry.png",
         next: {
             "happy": 20,
@@ -58,7 +65,7 @@ var states = [
     },
     {
         name: "angry",
-        desc: "feeling angry",
+        desc: "Gary is seething with rage!",
         img: "gary-angry.png",
         next: {
             "happy": 20,
@@ -82,10 +89,9 @@ function update() {
     out = document.getElementById("out");
     
     currentState = states[stateIndex]; 
-    
-    descText = "Gary is " + currentState.desc;
-    img.src = "assets/pet-pics/" + currentState.img;
+    descText = currentState.desc;
 
+    img.src = "assets/pet-pics/" + currentState.img;
     img.alt = descText;
     out.innerHTML = descText;
 
@@ -106,6 +112,11 @@ function init() {
 
     stateIndex = 0;
     totalStates = states.length;
+
+    happiness = 100;
+    hunger = 100;
+    fatigue = 100;
+
     update();
 
 }
