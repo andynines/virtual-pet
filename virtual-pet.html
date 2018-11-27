@@ -1,0 +1,92 @@
+<!doctype html>
+
+
+
+<html>
+    <head>
+        <title>Virtual Pet</title>
+        <script>
+
+
+
+var stateIndex;
+var totalStates;
+
+
+
+var states = [
+    {
+        name: "bored",
+        img: "gary-idle.png"
+    },
+    {
+        name: "happy",
+        img: "gary-happy.jpeg"
+    },
+    {
+        name: "tired",
+        img: "gary-tired.png"
+    },
+    {
+        name: "hungry",
+        img: "gary-hungry.png"
+    },
+    {
+        name: "angry",
+        img: "gary-angry.png"
+    }
+];
+
+
+
+function update() {
+
+    var img;
+    var out;
+    var descText;
+
+    img = document.getElementById("img");
+    out = document.getElementById("out");
+    
+    descText = "Gary is feeling " + states[stateIndex].name;
+    img.src = "pet-pics/" + states[stateIndex].img;
+    img.alt = descText;
+    out.innerHTML = descText;
+
+}
+
+
+
+function cycle() {
+
+    ++stateIndex;
+    stateIndex %= totalStates;
+    update();
+
+}
+
+
+
+function init() {
+
+    stateIndex = 0;
+    totalStates = states.length;
+    update();
+
+}
+
+
+
+        </script>
+    </head>
+    <body onload="init();">
+        <div align="center">
+            <h1>Gary the Snail</h1>
+            <h2>Your virtual pet</h2>
+            <img id="img" width="300" height="300"></img>
+            <p id="out"></p>
+            <input type="button" value="Next" onclick="cycle();">
+        </div>
+    </body>
+</html>
+
