@@ -4,6 +4,8 @@ Andrew Senin
 Drexel CS164
 */
 
+
+
 var stateIndex;
 var totalStates;
 
@@ -82,7 +84,7 @@ function update() {
     currentState = states[stateIndex]; 
     
     descText = "Gary is " + currentState.desc;
-    img.src = "pet-pics/" + currentState.img;
+    img.src = "assets/pet-pics/" + currentState.img;
 
     img.alt = descText;
     out.innerHTML = descText;
