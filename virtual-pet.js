@@ -30,32 +30,50 @@ var states = [
     {
         name: "sad",
         desc: "You've made Gary sad!",
-        img: "gary-sad.png"
+        img: "gary-sad.png",
+        next: {
+
+        }
     },
     {
         name: "tired",
         desc: "Gary is a worn-out snail.",
-        img: "gary-tired.png"
+        img: "gary-tired.png",
+        next: {
+
+        }
     },
     {
         name: "hungry",
         desc: "Gary's stomach is growling...",
-        img: "gary-hungry.png"
+        img: "gary-hungry.png",
+        next: {
+
+        }
     },
     {
         name: "reading",
         desc: "Gary is catching up on his reading.",
-        img: "special-reading.jpg"
+        img: "special-reading.jpg",
+        next: {
+
+        }
     },
     {
         name: "sockeyes",
         desc: "Oops, Gary can't see!",
-        img: "special-sockeyes.jpeg"
+        img: "special-sockeyes.jpeg",
+        next: {
+
+        }
     },
     {
         name: "wheel",
         desc: "Gary is getting some exercise.",
-        img: "special-wheel.png"
+        img: "special-wheel.png",
+        next: {
+
+        }
     }
 ];
 
@@ -64,47 +82,43 @@ var stimuli = [
     {
         name: "pet", // System name
         desc: "Pet", // Action available to user
-        effect: { // List of changes made to vital stats
-            deltaHappiness: 15
+        effect: { // List of possible states caused
+            "happy"
         }
     },
     {
         name: "walk",
         desc: "Go for walk",
         effect: {
-            deltaHappiness: 35,
-            deltaFatigue: -15,
+    
         }
     },
     {
         name: "feed",
         desc: "Feeding time",
         effect: {
-            deltaHappiness: 10,
-            deltaHunger: 40
+        
         }
     },
     {
         name: "treat",
         desc: "Give treat",
         effect: {
-            deltaHappiness: 15,
-            deltaHunger: 10
+        
         }
     },
     {
         name: "sleep",
         desc: "Bedtime",
         effect: {
-            deltaHappiness: 5,
-            deltaFatigue: 70
+        
         }
     },
     {
         name: "bathe",
         desc: "Bathtime",
         effect: {
-            deltaHappiness: -40
+        
         }
     }
 ];
