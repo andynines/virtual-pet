@@ -17,7 +17,7 @@ var states = [
         name: "happy", // System name
         desc: "Gary is feeling happy.", // How it's described to user
         img: "gary-happy.jpeg", // Path to corresponding pic
-        next: [
+        next: [ // Possible states from this one
 	    "bored",
             "read",
             "wheel"
@@ -182,7 +182,7 @@ var stimuli = [
 
 // Housekeeping vars
 
-var timer;
+var idleTimer;
 
 var currentState;
 var totalStimuli;
@@ -254,7 +254,7 @@ function draw() {
 
 
 
-function update() {
+function idleUpdate() {
 
     // Automatic change of state due to lack of input
     var stateElem;
@@ -269,7 +269,7 @@ function update() {
 
     draw();
 
-    timer = window.setTimeout(update, TICK);
+    idleTimer = setTimeout(idleUpdate, TICK);
 
 }
 
@@ -278,14 +278,16 @@ function update() {
 function doAction(actionName) {
 
     // Respond to stimuli
-    clearTimeout(timer);
+    clearTimeout(idleTimer);
 
     var actionElem;
 
     actionElem = getNamedElement(stimuli, actionName);
     currentState = chooseRandom(actionElem.effects);
 
-    update();
+    draw();
+
+    idleTimer = setTimeout(idleUpdate, TICK);
 
 }
 
@@ -317,7 +319,7 @@ function init() {
     buildInputs();
     draw();
 
-    setTimeout(update, TICK);
+    setTimeout(idleUpdate, TICK);
 
 }
 
