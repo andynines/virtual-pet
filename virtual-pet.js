@@ -137,7 +137,6 @@ var stimuli = [
     {
         name: "pet", // System name
         desc: "Pet", // Action available to user
-        log: "Pet Gary", // Statement that appears in log line
         effects: [ // List of possible states caused
             "happy"
         ]
@@ -145,7 +144,6 @@ var stimuli = [
     {
         name: "walk",
         desc: "Go for walk",
-        log: "Took Gary for a walk",
         effects: [
             "walk"
         ]
@@ -153,7 +151,6 @@ var stimuli = [
     {
         name: "feed",
         desc: "Feed",
-        log: "Fed Gary",
         effects: [
             "eating"
         ]
@@ -161,7 +158,6 @@ var stimuli = [
     {
         name: "treat",
         desc: "Give treat",
-        log: "Gave Gary a treat",
         effects: [
             "treat"
         ]
@@ -169,7 +165,6 @@ var stimuli = [
     {
         name: "bathe",
         desc: "Give bath",
-        log: "Gave Gary a bath",
         effects: [
             "bath" 
         ]
@@ -177,7 +172,6 @@ var stimuli = [
     {
         name: "sleep",
         desc: "Send to bed",
-        log: "Sent Gary to bed",
         effects: [
             "sleeping"
         ]
@@ -192,8 +186,6 @@ var timer;
 
 var currentState;
 var totalStimuli;
-var logText;
-var tick;
 
 
 
@@ -257,7 +249,6 @@ function draw() {
     img.alt = descText;
    
     document.getElementById("out").innerHTML = descText;
-    document.getElementById("log").innerHTML = logText;
 
 }
 
@@ -276,8 +267,6 @@ function update() {
         }
     }
 
-    tick = (tick + 1) % Number.MAX_SAFE_INTEGER;
-
     draw();
 
     timer = window.setTimeout(update, TICK);
@@ -295,7 +284,6 @@ function doAction(actionName) {
 
     actionElem = getNamedElement(stimuli, actionName);
     currentState = chooseRandom(actionElem.effects);
-    logText = actionElem.log + " @T" + tick.toString();
 
     update();
 
@@ -325,8 +313,6 @@ function init() {
 
     currentState = "happy";
     totalStimuli = stimuli.length;
-    logText = "";
-    tick = 0;
 
     buildInputs();
     draw();
