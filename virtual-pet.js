@@ -9,7 +9,7 @@ Drexel CS164
 // Constants
 
 var TICK = 1500; // Update delay (ms) resets if got input in meantime
-var STATE_RETAIN = 0.7; // Chance to stay in current state (w/o intervention)
+var STATE_RETAIN = 0.8; // Chance to stay in current state (w/o intervention)
 
 // Possible states
 var states = [
