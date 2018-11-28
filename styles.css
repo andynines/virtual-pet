@@ -1,0 +1,41 @@
+/*
+styles.css
+Andrew Senin
+Drexel CS164
+*/
+
+
+
+@font-face {
+    font-family: KrabbyPatty;
+    src: url(assets/krabby-patty.ttf);
+}
+
+body {
+    background-image: url("assets/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+div {
+    text-align: center;
+}
+
+img {
+    width: 300px;
+    height: 300px;
+    border: 1px solid rgb(0, 0, 0);
+}
+
+h1, p, input {
+    font-family: KrabbyPatty;
+    color: rgb(0, 0, 139);
+}
+
+input[type=button] {
+    background-color: Transparent;
+    border: 1px solid rgb(0, 0, 0);
+    text-align: center;
+    display: inline-block;
+}
+
