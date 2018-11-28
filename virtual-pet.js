@@ -50,6 +50,11 @@ var states = [
         }
     },
     {
+        name: "sad",
+        desc: "You've made Gary sad!",
+        img: "gary-sad.png"
+    },
+    {
         name: "tired",
         desc: "Gary is a worn-out snail.",
         img: "gary-tired.png"
