@@ -7,7 +7,8 @@ Drexel CS164
 
 
 // Constants
-var TICK = 1000; // Update delay (ms) resets if got input in meantime
+
+var TICK = 1500; // Update delay (ms) resets if got input in meantime
 var STATE_RETAIN = 0.6; // Chance to stay in current state (w/o intervention)
 
 // Possible states
@@ -35,7 +36,7 @@ var states = [
     },
     {
         name: "sad",
-        desc: "You've made Gary sad!",
+        desc: "Gary is sad about something!",
         img: "gary-sad.png",
         next: [
 	    // Needs user attention 
@@ -46,7 +47,7 @@ var states = [
         desc: "Gary is a worn-out snail.",
         img: "gary-tired.png",
         next: [
-	    // Needs user attention
+	    "hungry"
         ]
     },
     {
@@ -54,11 +55,11 @@ var states = [
         desc: "Gary's stomach is growling...",
         img: "gary-hungry.png",
         next: [
-	    // Needs user attention    
+	    "tired"
         ]
     },
     {
-        name: "reading",
+        name: "read",
         desc: "Gary is catching up on his reading.",
         img: "special-reading.jpg",
         next: [
@@ -92,43 +93,48 @@ var stimuli = [
     {
         name: "pet", // System name
         desc: "Pet", // Action available to user
-        effect: [ // List of possible states caused
+        effects: [ // List of possible states caused
             "happy"
         ]
     },
     {
         name: "walk",
         desc: "Go for walk",
-        effect: [
-    
+        effects: [
+            "happy",
+            "hungry",
+            "tired"
         ]
     },
     {
         name: "feed",
         desc: "Feeding time",
-        effect: [
-    
+        effects: [
+            "happy",
+            "bored"
         ]
     },
     {
         name: "treat",
         desc: "Give treat",
-        effect: [
-    
+        effects: [
+            "happy",
+            "hungry"
         ]
     },
     {
         name: "bathe",
         desc: "Bathtime",
-        effect: [
-    
+        effects: [
+            "sad" 
         ]
     },
     {
         name: "sleep",
         desc: "Bedtime",
-        effect: [
-    
+        effects: [
+            "bored",
+            "read"
         ]
     }
 ];
@@ -136,6 +142,7 @@ var stimuli = [
 
 
 // Housekeeping vars
+
 var timer;
 
 var currentState;
@@ -143,14 +150,16 @@ var totalStimuli;
 
 
 
-function getNamedElement(list, name) {
+// Utility methods
 
-    // Locate item with "name" property in list (states, stimuli)
+function getNamedElement(arr, name) {
+
+    // Locate item with "name" property in arr (states, stimuli)
     var elemIndex;
     var elem;
 
-    for (elemIndex = 0; elemIndex < list.length; ++elemIndex) {
-        elem = list[elemIndex];
+    for (elemIndex = 0; elemIndex < arr.length; ++elemIndex) {
+        elem = arr[elemIndex];
         if (elem.name == name) {
             return elem;
         }
@@ -161,6 +170,29 @@ function getNamedElement(list, name) {
 }
 
 
+
+function chooseRandom(arr) {
+
+    var arrLen;
+    var arrIndex;
+    var choiceProb;
+
+    arrLen = arr.length;
+
+    for (arrIndex = 0; arrIndex < arrLen; ++arrIndex) {
+        choiceProb = 1 / (arrLen - arrIndex);
+        if (Math.random() <= choiceProb) {
+            break;
+        }
+    }
+
+    return arr[arrIndex];
+
+}
+
+
+
+// User interface
 
 function draw() {
     
@@ -186,7 +218,13 @@ function draw() {
 
 function update() {
 
-    // set new state
+    var stateElem;
+
+    stateElem = getNamedElement(states, currentState);
+
+    if (Math.random() >= STATE_RETAIN) {
+        currentState = chooseRandom(stateElem.next);
+    }
 
     draw();
 
@@ -200,7 +238,7 @@ function doAction(actionName) {
 
     clearTimeout(timer);
 
-    // logic
+    currentState = chooseRandom(getNamedElement(stimuli, actionName).effects);
 
     update();
 
