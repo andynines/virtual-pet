@@ -7,9 +7,9 @@ Drexel CS164
 
 
 // Constants
-var MAX_HAPPINESS = 100;
-var MAX_HUNGER = 100;
-var MAX_FATIGUE = 100;
+var MAX_HAPPINESS = 300;
+var MAX_HUNGER = 300;
+var MAX_FATIGUE = 300;
 
 var DEC_HAPPINESS = 1;
 var DEC_HUNGER = 3;
@@ -34,59 +34,45 @@ var fatigue;
 // Possible states
 var states = [
     {
-        name: "bored", // System name
-        desc: "Gary is bored", // How it's described to user
-        img: "gary-idle.png", // Path to corresponding pic
-        next: { // List of relative probabilities to change state
-            "happy": 20,
-            "tired": 20,
-            "hungry": 20,
-            "angry": 20
+        name: "happy", // System name
+        desc: "Gary is feeling happy.", // How it's described to user
+        img: "gary-happy.jpeg", // Path to corresponding pic
+        next: {
+	        
         }
     },
     {
-        name: "happy",
-        desc: "Gary is feeling happy",
-        img: "gary-happy.jpeg",
+        name: "bored",
+        desc: "Gary is bored.",
+        img: "gary-idle.png",
         next: {
-            "bored": 20,
-            "tired": 20,
-            "hungry": 20,
-            "angry": 20
+
         }
     },
     {
         name: "tired",
-        desc: "Gary is worn out",
-        img: "gary-tired.png",
-        next: {
-            "happy": 20,
-            "bored": 20,
-            "hungry": 20,
-            "angry": 20
-        }
+        desc: "Gary is a worn-out snail.",
+        img: "gary-tired.png"
     },
     {
         name: "hungry",
-        desc: "Gary's stomach is growling",
-        img: "gary-hungry.png",
-        next: {
-            "happy": 20,
-            "bored": 20,
-            "tired": 20,
-            "angry": 20
-        }
+        desc: "Gary's stomach is growling...",
+        img: "gary-hungry.png"
     },
     {
-        name: "angry",
-        desc: "Gary is seething with rage!",
-        img: "gary-angry.png",
-        next: {
-            "happy": 20,
-            "bored": 20,
-            "tired": 20,
-            "hungry": 20,
-        }
+        name: "reading",
+        desc: "Gary is catching up on his reading.",
+        img: "special-reading.jpg"
+    },
+    {
+        name: "sockeyes",
+        desc: "Oops, Gary can't see!",
+        img: "special-sockeyes.jpeg"
+    },
+    {
+        name: "wheel",
+        desc: "Gary is getting some exercise.",
+        img: "special-wheel.png"
     }
 ];
 
@@ -98,37 +84,73 @@ var stimuli = [
         name: "pet", // System name
         desc: "Pet", // Action available to user
         effect: { // List of changes made to vital stats
-            deltaHappiness: 35
+            deltaHappiness: 15
+        }
+    },
+    {
+        name: "walk",
+        desc: "Go for walk",
+        effect: {
+            deltaHappiness: 35,
+            deltaFatigue: -15,
         }
     },
     {
         name: "feed",
-        desc: "Feed",
+        desc: "Feeding time",
         effect: {
             deltaHappiness: 10,
             deltaHunger: 40
         }
     },
     {
+        name: "treat",
+        desc: "Give treat",
+        effect: {
+            deltaHappiness: 15,
+            deltaHunger: 10
+        }
+    },
+    {
         name: "sleep",
-        desc: "Send to bed",
+        desc: "Bedtime",
         effect: {
             deltaHappiness: 5,
             deltaFatigue: 70
         }
     },
     {
-        name: "poke",
-        desc: "Poke",
+        name: "bathe",
+        desc: "Bathtime",
         effect: {
-            deltaHappiness: -40,
+            deltaHappiness: -40
         }
     }
 ];
 
 
 
+function getNamedElement(list, name) {
+
+    // Locate item with "name" property in list (states, stimuli)
+    var elemIndex;
+    var elem;
+
+    for (elemIndex = 0; elemIndex < list.length; ++elemIndex) {
+        elem = list[elemIndex];
+        if (elem.name == name) {
+            return elem;
+        }
+    }
+
+    return false;
+
+}
+
+
+
 function draw() {
+    
     // Sync webpage with pet status
     var img;
     var out;
@@ -162,6 +184,8 @@ function update() {
     hunger = Math.min(MAX_HUNGER, Math.max(0, hunger - DEC_HUNGER));
     fatigue = Math.min(MAX_FATIGUE, Math.max(0, fatigue - DEC_FATIGUE));
 
+    // set new state
+
     draw();
 
     timer = window.setTimeout(update, TICK);
@@ -170,18 +194,28 @@ function update() {
 
 
 
-function doAction(action) {
+function doAction(actionName) {
 
     clearTimeout(timer);
 
-    // logic
+    var fx;
+    var vitalDeltas;
+    var deltaIndex;
+
+    fx = getNamedElement(stimuli, actionName).effect;
+
+    happiness += (fx.deltaHappiness != undefined)? fx.deltaHappiness : 0;
+    hunger += (fx.deltaHunger != undefined)? fx.deltaHunger : 0;
+    fatigue += (fx.deltaFatigue != undefined)? fx.deltaFatigue : 0;
 
     update();
+
 }
 
 
 
 function buildInputs() {
+    
     // Create buttons corresponding to each available action
     var inputDiv;
     var stimIndex;
