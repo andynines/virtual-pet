@@ -8,6 +8,7 @@ Drexel CS164
 
 // Constants
 var TICK = 1000; // Update delay (ms) resets if got input in meantime
+var STATE_RETAIN = 0.6; // Chance to stay in current state (w/o intervention)
 
 // Possible states
 var states = [
@@ -15,65 +16,74 @@ var states = [
         name: "happy", // System name
         desc: "Gary is feeling happy.", // How it's described to user
         img: "gary-happy.jpeg", // Path to corresponding pic
-        next: {
-	        
-        }
+        next: [
+	    "bored",
+            "read",
+            "wheel"
+        ]
     },
     {
         name: "bored",
         desc: "Gary is bored.",
         img: "gary-idle.png",
-        next: {
-
-        }
+        next: [
+	    "read",
+            "sockeyes",
+            "wheel",
+            "happy"
+        ]
     },
     {
         name: "sad",
         desc: "You've made Gary sad!",
         img: "gary-sad.png",
-        next: {
-
-        }
+        next: [
+	    // Needs user attention 
+        ]
     },
     {
         name: "tired",
         desc: "Gary is a worn-out snail.",
         img: "gary-tired.png",
-        next: {
-
-        }
+        next: [
+	    // Needs user attention
+        ]
     },
     {
         name: "hungry",
         desc: "Gary's stomach is growling...",
         img: "gary-hungry.png",
-        next: {
-
-        }
+        next: [
+	    // Needs user attention    
+        ]
     },
     {
         name: "reading",
         desc: "Gary is catching up on his reading.",
         img: "special-reading.jpg",
-        next: {
-
-        }
+        next: [
+	    "happy",
+            "bored",
+        ]
     },
     {
         name: "sockeyes",
         desc: "Oops, Gary can't see!",
         img: "special-sockeyes.jpeg",
-        next: {
-
-        }
+        next: [
+	    "bored",
+            "tired"
+        ]
     },
     {
         name: "wheel",
         desc: "Gary is getting some exercise.",
         img: "special-wheel.png",
-        next: {
-
-        }
+        next: [
+	    "happy",
+            "hungry",
+            "tired"
+        ]
     }
 ];
 
@@ -82,44 +92,44 @@ var stimuli = [
     {
         name: "pet", // System name
         desc: "Pet", // Action available to user
-        effect: { // List of possible states caused
+        effect: [ // List of possible states caused
             "happy"
-        }
+        ]
     },
     {
         name: "walk",
         desc: "Go for walk",
-        effect: {
+        effect: [
     
-        }
+        ]
     },
     {
         name: "feed",
         desc: "Feeding time",
-        effect: {
-        
-        }
+        effect: [
+    
+        ]
     },
     {
         name: "treat",
         desc: "Give treat",
-        effect: {
-        
-        }
-    },
-    {
-        name: "sleep",
-        desc: "Bedtime",
-        effect: {
-        
-        }
+        effect: [
+    
+        ]
     },
     {
         name: "bathe",
         desc: "Bathtime",
-        effect: {
-        
-        }
+        effect: [
+    
+        ]
+    },
+    {
+        name: "sleep",
+        desc: "Bedtime",
+        effect: [
+    
+        ]
     }
 ];
 
@@ -128,8 +138,7 @@ var stimuli = [
 // Housekeeping vars
 var timer;
 
-var stateIndex;
-var totalStates;
+var currentState;
 var totalStimuli;
 
 
@@ -158,16 +167,16 @@ function draw() {
     // Sync webpage with pet status
     var img;
     var out;
-    var currentState;
+    var stateElem;
     var descText;
 
     img = document.getElementById("img");
     out = document.getElementById("out");
     
-    currentState = states[stateIndex]; 
-    descText = currentState.desc;
+    stateElem = getNamedElement(states, currentState); 
+    descText = stateElem.desc;
 
-    img.src = "assets/pet-pics/" + currentState.img;
+    img.src = "assets/pet-pics/" + stateElem.img;
     img.alt = descText;
     out.innerHTML = descText;
 
@@ -219,8 +228,7 @@ function buildInputs() {
 
 function init() {
 
-    stateIndex = 0;
-    totalStates = states.length;
+    currentState = "happy";
     totalStimuli = stimuli.length;
 
     buildInputs();
