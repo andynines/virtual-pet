@@ -6,12 +6,25 @@ Drexel CS164
 
 
 
+// Constants
+var MAX_HAPPINESS = 100;
+var MAX_HUNGER = 100;
+var MAX_FATIGUE = 100;
+
+var DEC_HAPPINESS = 1;
+var DEC_HUNGER = 3;
+var DEC_FATIGUE = 2;
+
+var TICK = 1000; // Update delay (ms) resets if got input in meantime
+
 // Housekeeping vars
+var timer;
+
 var stateIndex;
 var totalStates;
 var totalStimuli;
 
-// Pet vars
+// Vital vars
 var happiness;
 var hunger;
 var fatigue;
@@ -115,8 +128,8 @@ var stimuli = [
 
 
 
-function update() {
-
+function draw() {
+    // Sync webpage with pet status
     var img;
     var out;
     var currentState;
@@ -132,9 +145,26 @@ function update() {
     img.alt = descText;
     out.innerHTML = descText;
 
-    /* TODO:
-    Decrement vital stats, and keep them in range
-    */
+    // Debug
+    console.log(
+        "hap " + happiness.toString() +
+        "\nhun " + hunger.toString() +
+        "\nfat " + fatigue.toString()
+    );
+
+}
+
+
+
+function update() {
+
+    happiness = Math.min(MAX_HAPPINESS, Math.max(0, happiness - DEC_HAPPINESS));
+    hunger = Math.min(MAX_HUNGER, Math.max(0, hunger - DEC_HUNGER));
+    fatigue = Math.min(MAX_FATIGUE, Math.max(0, fatigue - DEC_FATIGUE));
+
+    draw();
+
+    timer = window.setTimeout(update, TICK);
 
 }
 
@@ -142,8 +172,11 @@ function update() {
 
 function doAction(action) {
 
-    update();
+    clearTimeout(timer);
 
+    // logic
+
+    update();
 }
 
 
@@ -171,12 +204,14 @@ function init() {
     totalStates = states.length;
     totalStimuli = stimuli.length;
 
-    happiness = 100;
-    hunger = 100;
-    fatigue = 100;
+    happiness = MAX_HAPPINESS;
+    hunger = MAX_HUNGER;
+    fatigue = MAX_FATIGUE;
 
     buildInputs();
-    update();
+    draw();
+
+    setTimeout(update, TICK);
 
 }
 
