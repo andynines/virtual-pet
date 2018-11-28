@@ -27,13 +27,21 @@ img {
     border: 1px solid rgb(0, 0, 139);
 }
 
-h1, p, input {
+h1, p, input, a {
     font-family: KrabbyPatty;
+}
+
+h1, p {
     color: rgb(0, 0, 139);
+}
+
+a {
+    color: rgb(255, 255, 0);
 }
 
 input[type=button] {
     background-color: white;
+    color: rgb(0, 127, 0);
     border: 1px solid rgb(0, 0, 0);
     text-align: center;
     display: inline-block;

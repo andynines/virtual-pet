@@ -31,12 +31,11 @@ var states = [
 	    "read",
             "sockeyes",
             "wheel",
-            "happy"
         ]
     },
     {
         name: "sad",
-        desc: "Gary is sad about something!",
+        desc: "You've made Gary sad!",
         img: "gary-sad.png",
         next: [
 	    "bored"
@@ -85,6 +84,51 @@ var states = [
             "hungry",
             "tired"
         ]
+    },
+    {
+        name: "eating",
+        desc: "Gary feasts!",
+        img: "gary-eating.png",
+        next: [
+            "happy",
+            "bored",
+            "read"
+        ]
+    },
+    {
+        name: "sleeping",
+        desc: "Gary takes a cat nap.",
+        img: "gary-sleeping.png",
+        next: [
+            "bored",
+        ]
+    },
+    {
+        name: "bath",
+        desc: "But Gary doesn't like baths...",
+        img: "gary-soap.jpg",
+        next: [
+            "sad"
+        ]
+    },
+    {
+        name: "treat",
+        desc: "Those are Gary's favorite!",
+        img: "gary-treat.jpeg",
+        next: [
+            "happy",
+            "wheel"
+        ]
+    },
+    {
+        name: "walk",
+        desc: "You go on a pleasant walk together.",
+        img: "gary-walk.png",
+        next: [
+            "bored",
+            "happy",
+            "tired"
+        ]
     }
 ];
 
@@ -103,9 +147,7 @@ var stimuli = [
         desc: "Go for walk",
         log: "Took Gary for a walk",
         effects: [
-            "happy",
-            "hungry",
-            "tired"
+            "walk"
         ]
     },
     {
@@ -113,8 +155,7 @@ var stimuli = [
         desc: "Feed",
         log: "Fed Gary",
         effects: [
-            "happy",
-            "bored"
+            "eating"
         ]
     },
     {
@@ -122,8 +163,7 @@ var stimuli = [
         desc: "Give treat",
         log: "Gave Gary a treat",
         effects: [
-            "happy",
-            "hungry"
+            "treat"
         ]
     },
     {
@@ -131,7 +171,7 @@ var stimuli = [
         desc: "Give bath",
         log: "Gave Gary a bath",
         effects: [
-            "sad" 
+            "bath" 
         ]
     },
     {
@@ -139,8 +179,7 @@ var stimuli = [
         desc: "Send to bed",
         log: "Sent Gary to bed",
         effects: [
-            "bored",
-            "read"
+            "sleeping"
         ]
     }
 ];
@@ -162,7 +201,7 @@ var tick;
 
 function getNamedElement(arr, name) {
 
-    // Locate item with "name" property in arr (states, stimuli)
+    // Locate item with "name" property in array (states, stimuli)
     var elemIndex;
     var elem;
 
@@ -181,6 +220,7 @@ function getNamedElement(arr, name) {
 
 function chooseRandom(arr) {
 
+    // Choose random item from array 
     var arrLen;
     var arrIndex;
     var choiceProb;
@@ -225,6 +265,7 @@ function draw() {
 
 function update() {
 
+    // Automatic change of state due to lack of input
     var stateElem;
 
     stateElem = getNamedElement(states, currentState);
@@ -247,6 +288,7 @@ function update() {
 
 function doAction(actionName) {
 
+    // Respond to stimuli
     clearTimeout(timer);
 
     var actionElem;
