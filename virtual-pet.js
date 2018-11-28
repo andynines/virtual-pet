@@ -9,7 +9,7 @@ Drexel CS164
 // Constants
 
 var TICK = 1500; // Update delay (ms) resets if got input in meantime
-var STATE_RETAIN = 0.6; // Chance to stay in current state (w/o intervention)
+var STATE_RETAIN = 0.7; // Chance to stay in current state (w/o intervention)
 
 // Possible states
 var states = [
@@ -39,7 +39,7 @@ var states = [
         desc: "Gary is sad about something!",
         img: "gary-sad.png",
         next: [
-	    // Needs user attention 
+	    "bored"
         ]
     },
     {
@@ -47,7 +47,7 @@ var states = [
         desc: "Gary is a worn-out snail.",
         img: "gary-tired.png",
         next: [
-	    "hungry"
+	    "bored"
         ]
     },
     {
@@ -55,7 +55,7 @@ var states = [
         desc: "Gary's stomach is growling...",
         img: "gary-hungry.png",
         next: [
-	    "tired"
+	    "bored"
         ]
     },
     {
@@ -93,6 +93,7 @@ var stimuli = [
     {
         name: "pet", // System name
         desc: "Pet", // Action available to user
+        log: "Pet Gary", // Statement that appears in log line
         effects: [ // List of possible states caused
             "happy"
         ]
@@ -100,6 +101,7 @@ var stimuli = [
     {
         name: "walk",
         desc: "Go for walk",
+        log: "Took Gary for a walk",
         effects: [
             "happy",
             "hungry",
@@ -108,7 +110,8 @@ var stimuli = [
     },
     {
         name: "feed",
-        desc: "Feeding time",
+        desc: "Feed",
+        log: "Fed Gary",
         effects: [
             "happy",
             "bored"
@@ -117,6 +120,7 @@ var stimuli = [
     {
         name: "treat",
         desc: "Give treat",
+        log: "Gave Gary a treat",
         effects: [
             "happy",
             "hungry"
@@ -124,14 +128,16 @@ var stimuli = [
     },
     {
         name: "bathe",
-        desc: "Bathtime",
+        desc: "Give bath",
+        log: "Gave Gary a bath",
         effects: [
             "sad" 
         ]
     },
     {
         name: "sleep",
-        desc: "Bedtime",
+        desc: "Send to bed",
+        log: "Sent Gary to bed",
         effects: [
             "bored",
             "read"
@@ -147,6 +153,8 @@ var timer;
 
 var currentState;
 var totalStimuli;
+var logText;
+var tick;
 
 
 
@@ -198,19 +206,18 @@ function draw() {
     
     // Sync webpage with pet status
     var img;
-    var out;
     var stateElem;
     var descText;
 
     img = document.getElementById("img");
-    out = document.getElementById("out");
-    
     stateElem = getNamedElement(states, currentState); 
     descText = stateElem.desc;
 
     img.src = "assets/pet-pics/" + stateElem.img;
     img.alt = descText;
-    out.innerHTML = descText;
+   
+    document.getElementById("out").innerHTML = descText;
+    document.getElementById("log").innerHTML = logText;
 
 }
 
@@ -222,9 +229,13 @@ function update() {
 
     stateElem = getNamedElement(states, currentState);
 
-    if (Math.random() >= STATE_RETAIN) {
-        currentState = chooseRandom(stateElem.next);
+    if (stateElem.next.length > 0) {
+        if (Math.random() >= STATE_RETAIN) {
+            currentState = chooseRandom(stateElem.next);
+        }
     }
+
+    tick = (tick + 1) % Number.MAX_SAFE_INTEGER;
 
     draw();
 
@@ -238,7 +249,11 @@ function doAction(actionName) {
 
     clearTimeout(timer);
 
-    currentState = chooseRandom(getNamedElement(stimuli, actionName).effects);
+    var actionElem;
+
+    actionElem = getNamedElement(stimuli, actionName);
+    currentState = chooseRandom(actionElem.effects);
+    logText = actionElem.log + " @T" + tick.toString();
 
     update();
 
@@ -268,6 +283,8 @@ function init() {
 
     currentState = "happy";
     totalStimuli = stimuli.length;
+    logText = "";
+    tick = 0;
 
     buildInputs();
     draw();

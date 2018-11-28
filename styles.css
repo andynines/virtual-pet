@@ -24,7 +24,7 @@ div {
 img {
     width: 300px;
     height: 300px;
-    border: 1px solid rgb(0, 0, 0);
+    border: 1px solid rgb(0, 0, 139);
 }
 
 h1, p, input {
@@ -33,7 +33,7 @@ h1, p, input {
 }
 
 input[type=button] {
-    background-color: Transparent;
+    background-color: white;
     border: 1px solid rgb(0, 0, 0);
     text-align: center;
     display: inline-block;
