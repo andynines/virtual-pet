@@ -14,10 +14,10 @@ var STATE_RETAIN = 0.75; // Chance to stay in current state (w/o intervention)
 // Possible states
 var states = [
     {
-        name: "happy", // System name
+        name: "happy", // System name of state
         desc: "Gary is feeling happy.", // How it's described to user
         img: "gary-happy.jpeg", // Path to corresponding pic
-        next: [ // Possible states from this one
+        next: [ // Possible states reached from this one
 	    "bored",
             "read",
             "wheel"

@@ -15,11 +15,48 @@ Drexel CS164
     </head>
 
     <body>
+        <h1>About</h1>
+        <ul>
+            <li><a href="#intro">Introduction</a></li>
+            <li><a href="#behavior">Gary's Behavior</a></li>
+            <li><a href="#docs">Program Architecture</a></li>
+        </ul>
+        <h2 id="intro">Introduction</h2>
         <p>One day, you hear a knock at your door. To your surprise, the person outside is no one other than Spongebob Squarepants, with snail Gary in tow! Spongebob humbly asks if you would be willing to watch Gary for him while he goes on a week-long jellyfishing trip. Of course, you gladly fulfill Spongebob's request. After a couple hours during which he explains to you all of the intricacies of snail care, Spongebob bids his Garebear farewell and hops on the next bus to Jellyfish Fields. It's a shame that you weren't paying attention! Hopefully Gary will tell you what he needs.</p>
-        <h1>Gary's Behavior</h1>
-        <p>After observing Gary's behavior for a few hours, you figure out that his behavior is determined by a finite state machine. In particular, this is his state diagram:</p>
-
-
+        <h2 id="behavior">Gary's Behavior</h2>
+        <p>After observing Gary for a few hours, you figure out that his behavior is determined by a finite state machine. You manage to create his state diagram:</p>
+        <br>
+        <img src="assets/state-diagram.png" alt="State diagram">
+        <br>
+        <p>As a house snail, Gary is used to being left alone sometimes, and so he exhibits a sequence of semirandom behaviors throughout the day. He will try to entertain himself and express physical needs due to hunger and fatigue. When interacted with, this will automatically set his state in response to the stimuli. There are certain states that can only be reached by human interaction, which each lead back into Gary's natural state flow. For instance, you found that he tends to get tired from walks, and baths make him sad!</p>
+        <h2 id="docs">Program Architecture</h2>
+        <h3>Adding states and stimuli</h3>
+        <p>All of the possible states that Gary can reach and stimuli that he can respond to are marked up in JSON with the "states" and "stimuli" global arrays of <code>virtual-pet.js</code>. To add a new state, just follow the format:</p>
+        <code>
+        {<br>
+        name: "happy", // System name of state<br>
+        desc: "Gary is feeling happy.", // How it's described to user<br>
+        img: "gary-happy.jpeg", // Path to corresponding pic<br>
+        next: [ // Possible states reached from this one<br>
+        "bored",<br>
+        "read",<br>
+        "wheel"<br>
+        ]<br>
+        },<br>
+        </code>
+        <p>To add a new stimulus, follow this format instead:</p>
+        <code>
+        {<br>
+        name: "pet", // System name<br>
+        desc: "Pet", // Action available to user<br>
+        effects: [ // List of possible states caused<br>
+        "happy"<br>
+        ]<br>
+        },<br>
+        </code>
+        <p>The program will automatically generate an HTML button for the stimulus.</p>
+        <h3>The state machine</h3>
+        <p>Gary's behavior changes are a stochastic process. At any given state, Gary will either respond to a user stimulus or else according to <code>idleUpdate()</code>. </p>
         <a href="virtual-pet.html">Back to Gary</a>
     </body>
 
