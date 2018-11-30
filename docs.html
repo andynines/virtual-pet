@@ -31,32 +31,36 @@ Drexel CS164
         <p>As a house snail, Gary is used to being left alone sometimes, and so he exhibits a sequence of semirandom behaviors throughout the day. He will try to entertain himself and express physical needs due to hunger and fatigue. When interacted with, this will automatically set his state in response to the stimuli. There are certain states that can only be reached by human interaction, which each lead back into Gary's natural state flow. For instance, you found that he tends to get tired from walks, and baths make him sad!</p>
         <h2 id="docs">Program Architecture</h2>
         <h3>Adding states and stimuli</h3>
-        <p>All of the possible states that Gary can reach and stimuli that he can respond to are marked up in JSON with the "states" and "stimuli" global arrays of <code>virtual-pet.js</code>. To add a new state, just follow the format:</p>
-        <code>
-        {<br>
-        name: "happy", // System name of state<br>
-        desc: "Gary is feeling happy.", // How it's described to user<br>
-        img: "gary-happy.jpeg", // Path to corresponding pic<br>
-        next: [ // Possible states reached from this one<br>
-        "bored",<br>
-        "read",<br>
-        "wheel"<br>
-        ]<br>
-        },<br>
-        </code>
-        <p>To add a new stimulus, follow this format instead:</p>
-        <code>
-        {<br>
-        name: "pet", // System name<br>
-        desc: "Pet", // Action available to user<br>
-        effects: [ // List of possible states caused<br>
-        "happy"<br>
-        ]<br>
-        },<br>
-        </code>
-        <p>The program will automatically generate an HTML button for the stimulus.</p>
+        <p>All of the possible states that Gary can reach and stimuli that he can respond to are organized in the "states" and "stimuli" global arrays of <code>virtual-pet.js</code>. To add a new state, just abide by the following format. New corresponding images should be placed in <code>assets/pet-pics/</code>.</p>
+        <pre>
+<code>
+{
+    name: "happy", // System name of state
+    desc: "Gary is feeling happy.", // How it's described to user
+    img: "gary-happy.jpeg", // Path to corresponding pic
+    next: [ // Possible states reached from this one
+        "bored",
+        "read",
+        "wheel"
+    ]
+},
+</code>
+        </pre>
+        <p>To add a new stimulus, follow this format:</p>
+        <pre>
+<code>
+{
+    name: "pet", // System name
+    desc: "Pet", // Action available to user
+    effects: [ // List of possible states caused
+        "happy"
+    ]
+},
+</code>
+        </pre>
+        <p>The program will automatically generate an HTML button for each stimulus.</p>
         <h3>The state machine</h3>
-        <p>Gary's behavior changes are a stochastic process. At any given state, Gary will either respond to a user stimulus or else according to <code>idleUpdate()</code>. </p>
+        <p>Gary's behavior changes are a stochastic process. At any given state, Gary will either respond to a user stimulus, or else change his state automatically according to <code>idleUpdate()</code>. Gary is granted the opportunity to change state after a sleep time of some number of milliseconds specified by the <code>TICK</code> constant. If Gary is left alone, then at every tick, he has a probability to remain in his current state specified by the <code>STATE_RETAIN</code> constant. If state retention does not occur, then Gary has an equal chance to transition to any of the other states which may be reached from his current one. If Gary instead receives a stimulus from the user prior to his next update, then his state will be set according to the stimulus, and his idle update timer will be reset. See the code for this state machine in <code>virtual-pet.js</code>.</p>
         <a href="virtual-pet.html">Back to Gary</a>
     </body>
 
