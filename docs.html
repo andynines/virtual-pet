@@ -28,7 +28,7 @@ Drexel CS164
         <br>
         <img src="assets/state-diagram.png" alt="State diagram">
         <br>
-        <p>As a house snail, Gary is used to being left alone sometimes, and so he exhibits a sequence of semirandom behaviors throughout the day. He will try to entertain himself and express physical needs due to hunger and fatigue. When interacted with, this will automatically set his state in response to the stimuli. There are certain states that can only be reached by human interaction, which each lead back into Gary's natural state flow. For instance, you found that he tends to get tired from walks, and baths make him sad!</p>
+        <p>As a house snail, Gary is used to being left alone sometimes, and so he exhibits a sequence of semirandom behaviors throughout the day. He will try to entertain himself and express physical needs due to hunger and fatigue. When interacted with, this will automatically set his state in response to the stimuli. There are certain states that can only be reached by human interaction, which each lead back into Gary's natural state flow. For instance, you found that he tends to get tired from walks, and baths make him sad! Other times, however, his behavior is less deterministic.</p>
         <h2 id="docs">Program Architecture</h2>
         <h3>Adding states and stimuli</h3>
         <p>All of the possible states that Gary can reach and stimuli that he can respond to are organized in the "states" and "stimuli" global arrays of <code>virtual-pet.js</code>. To add a new state, just abide by the following format. New corresponding images should be placed in <code>assets/pet-pics/</code>.</p>
@@ -53,7 +53,8 @@ Drexel CS164
     name: "pet", // System name
     desc: "Pet", // Action available to user
     effects: [ // List of possible states caused
-        "happy"
+        "happy",
+        "angry"
     ]
 },
 </code>

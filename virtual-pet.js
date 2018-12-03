@@ -129,6 +129,15 @@ var states = [
             "happy",
             "tired"
         ]
+    },
+    {
+        name: "angry",
+        desc: "Gary is seething with rage!",
+        img: "gary-angry.png",
+        next: [
+            "sad",
+            "bored"
+        ]
     }
 ];
 
@@ -138,7 +147,8 @@ var stimuli = [
         name: "pet", // System name
         desc: "Pet", // Action available to user
         effects: [ // List of possible states caused
-            "happy"
+            "happy",
+            "angry"
         ]
     },
     {
@@ -166,14 +176,17 @@ var stimuli = [
         name: "bathe",
         desc: "Give bath",
         effects: [
-            "bath" 
+            "bath",
+            "angry"
         ]
     },
     {
         name: "sleep",
         desc: "Send to bed",
         effects: [
-            "sleeping"
+            "sleeping",
+            "sad",
+            "angry"
         ]
     }
 ];
