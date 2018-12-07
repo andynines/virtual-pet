@@ -1,10 +1,6 @@
 About
 =====
-Adapted from `docs.html`
-
-*   [Introduction](#intro)
-*   [Gary's Behavior](#behavior)
-*   [Program Architecture](#docs)
+Developed for Drexel CS164; adapted from `docs.html`
 
 Introduction
 ------------
@@ -63,6 +59,4 @@ The program will automatically generate an HTML button for each stimulus.
 ### The state machine
 
 Gary's behavior changes are a stochastic process. At any given state, Gary will either respond to a user stimulus, or else change his state automatically according to `idleUpdate()`. Gary is granted the opportunity to change state after a sleep time of some number of milliseconds specified by the `TICK` constant. If Gary is left alone, then at every tick, he has a probability to remain in his current state specified by the `STATE_RETAIN` constant. If state retention does not occur, then Gary has an equal chance to transition to any of the other states which may be reached from his current one. If Gary instead receives a stimulus from the user prior to his next update, then his state will be set according to the stimulus, and his idle update timer will be reset. See the code for this state machine in `virtual-pet.js`.
-
-[Back to Gary](virtual-pet.html)
 
